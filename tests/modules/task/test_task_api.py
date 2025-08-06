@@ -232,6 +232,34 @@ class TestTaskApi(BaseTestTask):
 
         self.assert_error_response(response, 401, AccessTokenErrorCode.AUTHORIZATION_HEADER_NOT_FOUND)
 
+    def test_delete_task_deletes_comments(self) -> None:
+        """
+        Integration test: Deleting a task should also delete its comments.
+        """
+        account, token = self.create_account_and_get_token()
+        # Create a task
+        created_task = self.create_test_task(account_id=account.id)
+        # Create a comment for the task via the comment API
+        comment_data = {"task_id": created_task.id, "content": "Test comment for deletion"}
+        with app.test_client() as client:
+            comment_response = client.post(
+                f"/api/comments",  # Adjust endpoint as needed
+                json=comment_data,
+                headers={**self.HEADERS, "Authorization": f"Bearer {token}"},
+            )
+            assert comment_response.status_code == 201
+            comment_id = comment_response.json["id"]
+        # Delete the task
+        delete_response = self.make_authenticated_request("DELETE", account.id, token, task_id=created_task.id)
+        assert delete_response.status_code == 204
+        # Try to fetch the comment (should be gone)
+        with app.test_client() as client:
+            get_comment_response = client.get(
+                f"/api/comments/{comment_id}",
+                headers={**self.HEADERS, "Authorization": f"Bearer {token}"},
+            )
+            assert get_comment_response.status_code == 404
+
     def test_tasks_are_account_isolated_via_api(self) -> None:
         account1, token1 = self.create_account_and_get_token("user1@example.com", "password1")
         account2, token2 = self.create_account_and_get_token("user2@example.com", "password2")
