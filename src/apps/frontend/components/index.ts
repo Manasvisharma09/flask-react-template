@@ -11,6 +11,7 @@ import OTP from 'frontend/components/otp';
 import Select from 'frontend/components/select';
 import H2 from 'frontend/components/typography/h2';
 import ParagraphMedium from 'frontend/components/typography/paragraph-medium';
+import * as TaskComponents from 'frontend/components/task';
 
 export {
   Button,
@@ -26,4 +27,5 @@ export {
   PasswordInput,
   Select,
   VerticalStackLayout,
+  TaskComponents,
 };

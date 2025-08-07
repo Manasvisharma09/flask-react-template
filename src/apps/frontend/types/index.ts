@@ -10,6 +10,8 @@ import { AccessToken, KeyboardKeys, PhoneNumber } from 'frontend/types/auth';
 import { ApiResponse, ApiError } from 'frontend/types/service-response';
 import { UserMenuDropdownItem } from 'frontend/types/user-menu-dropdown-item';
 
+export * from './task';
+
 export {
   AccessToken,
   Account,
