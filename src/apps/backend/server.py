@@ -37,7 +37,7 @@ try:
     ApplicationService.schedule_worker_as_cron(cls=HealthCheckWorker, cron_schedule="*/10 * * * *")
 
 except WorkerClientConnectionError as e:
-    Logger.critical(message=e.message)
+    Logger.info(message=f"Temporal server not available: {e.message}. Continuing without Temporal functionality.")
 
 
 # Apply ProxyFix to interpret `X-Forwarded` headers if enabled in configuration
@@ -59,7 +59,6 @@ api_blueprint.register_blueprint(account_blueprint)
 task_blueprint = TaskRestApiServer.create()
 api_blueprint.register_blueprint(task_blueprint)
 
-app.register_blueprint(api_blueprint)
 # Register comment apis
 comment_blueprint = CommentRestApiServer.create()
 api_blueprint.register_blueprint(comment_blueprint)
@@ -75,3 +74,6 @@ app.register_blueprint(react_blueprint)
 @app.errorhandler(AppError)
 def handle_error(exc: AppError) -> ResponseReturnValue:
     return jsonify({"message": exc.message, "code": exc.code}), exc.http_code or 500
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
