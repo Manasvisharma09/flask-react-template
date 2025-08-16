@@ -25,3 +25,5 @@ Boilerplate project for Flask, React & MongoDB based projects. This README docum
 Once you have familiarized yourself with the documentation, head over to the [Engineering Handbook](https://github.com/jalantechnologies/handbook/blob/main/engineering/index.md) to learn about the best practices we follow at Better Software.
 
 PS: Before you start working on the application, these [three git settings](https://spin.atomicobject.com/git-configurations-default/) are a must-have!
+![WhatsApp Image 2025-08-11 at 15 26 13_2eead33f](https://github.com/user-attachments/assets/c248f8a8-0867-4096-9fa5-ceea16af0c9b)
+
